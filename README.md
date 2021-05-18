@@ -1,7 +1,7 @@
 # Natural Language Processing for Biomedical Abstract Classification 
 ### By Eva van Weenen
 
-This notebook contains the solutions to exercise 3 of the **Machine Learning for Healthcare** course. 
+In this notebook, we use Natural Language Processing (NLP) on abstracts of biomedical scientific texts.  
 Using the PubMed 200k dataset consisting of abstracts from PubMed, we try to classify to which section of the abstract it belongs, i.e. background, objective, methods, results, conclusions. For this purpose, we try three different methods: *tf-idf*, *word2vec* and *bluebert*. Each part can be viewed underneath.
 
 We evaluate each model with a classification report (showing the precision, recall and F1-score, for each label), as well as a confusion matrix, and an ROC-curve. With these models, we obtain the following *weighted F1-scores* on the test set: 
@@ -15,7 +15,7 @@ BlueBert (fine-tuned) | 0.86
 
 As you can see, the fine-tuned BlueBert model obtains the best performance on the test set. For the performance of this model, please scroll down.
 
-*Note: I ran the models in a script (see `main.py` and `read.py`), and then realized only afterwards that I should hand in a notebook instead of a script. Therefore I only load the models in the script, and leave these cells in the notebook inactive.*
+*Note: the models can also be trained with the scripts `main.py` and `read.py`. The code of this notebook is similar to those scripts.*
 
 
 ```python
@@ -422,7 +422,7 @@ print("F1-score (weighted) for test set: ", f1_score(Y['test'], clf.predict(X['t
     F1-score (weighted) for test set:  0.8029076791653351
 
 
-We notice that the final score is already relatively high. We therefore do not do any hyperparameter-optimization (technically, we could have optimized the L1-regularization factor). For this reason, we do not need the validation set, and we report the F1-score on the *test* set.
+We notice that the final score is already relatively high. We therefore do not do any hyperparameter-optimization (technically, we could have optimized the L1-regularization factor). For this reason, we do not need the validation set, and we report the final F1-score on the *test* set.
 
 **Confusion matrix**
 
@@ -549,7 +549,7 @@ w2v = Word2Vec.load('./model/word2vec.model')
 
 Transform lines of text to their vector embeddings by taking the mean.
 
-*Note that if the word is unknown, we set it's vector to nan (so that it is ignored when taking the mean). If all words in a vector are unknown, we later remove it. A better approach here would have been to use `fasttext`.*
+*Note that if the word is unknown, we set its vector to nan (so that it is ignored when taking the mean). If all words in a vector are unknown, we later remove it. A better approach here would have been to use `fasttext`.*
 
 
 ```python
@@ -782,7 +782,7 @@ Transformers make use of an attention mechanism to learn contextual relations be
 
 There are many pre-trained Bert models out there, that are trained on a specific type of text. These models can then be used and fine-tuned for the specific prediction task. In our case, there exists a model BlueBert [1] thath has been trained on the same PubMed dataset that we use for this task. It has shown to have a high performance for this dataset, also when compared to other models such as BioBert. This is quite convenient for our task, and we only need a classifier on top to finish the prediction.
 
-***Note that the BlueBert analysis consits of two parts: one where we do not fine-tune the Bert layers of the model, and one where we do fine-tune the Bert layers of the model. The latter obviously achieves the best performance.***
+***Note that the BlueBert analysis consists of two parts: one where we do not fine-tune the Bert layers of the model, and one where we do fine-tune the Bert layers of the model. The latter obviously achieves the best performance.***
 
 [1] Peng, Y., Yan, S., and Lu, Z., “Transfer Learning in Biomedical Natural Language Processing: An Evaluation of BERT and ELMo on Ten Benchmarking Datasets”, <i>arXiv e-prints</i> https://arxiv.org/abs/1906.05474, 2019.
 
